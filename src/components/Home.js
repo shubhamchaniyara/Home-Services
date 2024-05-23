@@ -224,7 +224,7 @@ const Home = () => {
       </Collapse>
 
       <div>
-        <h2>Filtered workers</h2>
+        <h2>Filtered Workers</h2>
         <div className="d-flex flex-wrap">
           {tasks.length > 0 ? (
             tasks.map((task) => (
