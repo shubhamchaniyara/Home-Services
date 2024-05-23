@@ -1,0 +1,65 @@
+/* Center the form on the page */
+.form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Custom input styles */
+  .custom-input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da; /* Border color */
+  }
+  
+  /* Custom form heading */
+  .form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40; /* Dark color for heading */
+  }
+  
+  /* Custom card styles */
+  .card {
+    border: 1px solid #dee2e6; /* Border color */
+    border-radius: 8px;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #343a40; /* Dark color for card title */
+  }
+  
+  .card-subtitle {
+    font-size: 1rem;
+    color: #6c757d; /* Muted color for subtitle */
+  }
+  
+  .card-text {
+    font-size: 0.875rem;
+    color: #495057; /* Dark color for text */
+  }
+  
+  /* Custom form button */
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  
+  /* Responsive spacing for cards */
+  @media (max-width: 768px) {
+    .card {
+      margin-bottom: 20px;
+    }
+  }
+  
