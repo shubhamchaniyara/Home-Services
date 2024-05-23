@@ -127,7 +127,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Card, Collapse } from 'react-bootstrap';
-import { FaFilter } from 'react-icons/fa'; // Make sure this import is correct
+import { FaFilter } from 'react-icons/fa'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Loginworker.css';
 import axios from 'axios';
@@ -175,6 +175,15 @@ const Home = () => {
 
   const toggleFilter = () => {
     setFilterVisible(!filterVisible);
+  };
+
+  const sendEmail = async (emailAddress) => {
+    try {
+      await axios.post('http://localhost:8080/api/sendEmail', { emailAddress });
+      console.log('Email sent successfully!');
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   };
 
   return (
@@ -237,7 +246,8 @@ const Home = () => {
                     <strong>City:</strong> {task.City}<br />
                     <strong>Number:</strong> {task.Number}
                   </Card.Text>
-                  <Button variant="primary" className="mr-2 mb-2">Email</Button>
+                  {/* <Button variant="primary" className="mr-2 mb-2"  onClick={() => sendEmail(task.email)}>Email</Button> */}
+                  <Button variant="primary" className="mr-2 mb-2" href={`mailto:${task.email}`}>Email</Button>
                   <Button variant="secondary" className="ml-2 mb-2">Chat</Button>
                 </Card.Body>
               </Card>

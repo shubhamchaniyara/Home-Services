@@ -3,6 +3,7 @@ const server = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
+const emailRoutes = require('./emailRoutes');
 console.log("hello");
 
 mongoose.connect("mongodb://127.0.0.1:27017/workerlist")
@@ -60,6 +61,8 @@ server.get('/fetchworker', async (req, res) => {
         res.status(500).json({ message: "Error fetching tasks" });
       }
   });
+
+server.use('/api', emailRoutes);
 
 server.listen(8080, () => {
     console.log("Server started on port 8080");
