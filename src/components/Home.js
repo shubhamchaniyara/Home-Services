@@ -127,9 +127,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Card, Collapse } from 'react-bootstrap';
-import { FaFilter } from 'react-icons/fa'; 
+import { FaFilter,FaEnvelope, FaWhatsapp } from 'react-icons/fa'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Loginworker.css';
+import './home.css';
 import axios from 'axios';
 
 const Home = () => {
@@ -176,6 +176,11 @@ const Home = () => {
   const toggleFilter = () => {
     setFilterVisible(!filterVisible);
   };
+  
+  const handleChatClick = (phoneNumber) => {
+    window.open(`https://wa.me/919879576409`, '_blank');
+  };
+
 
   const sendEmail = async (emailAddress) => {
     try {
@@ -247,8 +252,24 @@ const Home = () => {
                     <strong>Number:</strong> {task.Number}
                   </Card.Text>
                   {/* <Button variant="primary" className="mr-2 mb-2"  onClick={() => sendEmail(task.email)}>Email</Button> */}
-                  <Button variant="primary" className="mr-2 mb-2" href={`mailto:${task.email}`}>Email</Button>
-                  <Button variant="secondary" className="ml-2 mb-2">Chat</Button>
+                  {/* <Button variant="primary" className="mr-2 mb-2" href={`mailto:${task.email}`}><FaEnvelope className="mr-2" />Email</Button>
+                  <Button variant="secondary" className="ml-2 mb-2" onClick={() => handleChatClick(task.Number)}><FaWhatsapp className="mr-2" /> Chat</Button> */}
+                   <div className="button-group">
+                    <Button 
+                      variant="primary" 
+                      className="d-flex align-items-center" 
+                      
+                    >
+                      <FaEnvelope className="mr-2" /> Email
+                    </Button>
+                    <Button 
+                      variant="success" 
+                      className="d-flex align-items-center" 
+                      onClick={() => handleChatClick(task.Number)}
+                    >
+                      <FaWhatsapp className="mr-2" /> Chat
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             ))

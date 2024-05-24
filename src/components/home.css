@@ -55,6 +55,13 @@
     background-color: #0056b3;
     border-color: #004085;
   }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin: 50px; /* Adjust the gap value as needed */
+  }
+  
   
   
   @media (max-width: 768px) {
