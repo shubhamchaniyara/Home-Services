@@ -18,6 +18,12 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
+  const [showUserForm, setShowUserForm] = useState(false);
+  const [address, setAddress] = useState('');
+  const [userFormData, setUserFormData] = useState({
+    email: '',
+    username: '',
+  });
 
   useEffect(() => {
     fetchTasks();
@@ -52,6 +58,14 @@ const Home = () => {
     fetchTasks(formData.category, formData.city);
   };
 
+  const handleUserFormChange = (e) => {
+    const { name, value } = e.target;
+    setUserFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleEmailClick = (email) => {
     window.location.href = `mailto:${email}`;
   };
@@ -67,42 +81,70 @@ const Home = () => {
   const handleCardClick = (task) => {
     setSelectedTask(task);
     console.log(task);
+    console.log(task.email);
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedTask(null);
+    setShowMap(false);
+    setShowUserForm(false);
+    setUserFormData({ email: '', username: '' });
   };
 
   const handleApplyClick = async () => {
     setShowMap(true);
+    setShowUserForm(true);
   };
 
   const MapClickHandler = ({ setLocation }) => {
     useMapEvents({
       click: (e) => {
         const { lat, lng } = e.latlng;
-        console.log(location);
         setLocation({ lat, lng });
+        console.log(location);
+        fetchAddressFromCoordinates(lat, lng);
       },
     });
     return null;
   };
 
-  const handleSaveLocation = async () => {
+  const fetchAddressFromCoordinates = async (lat, lng) => {
     try {
-      await axios.post('http://localhost:8080/apply', {
-        taskId: selectedTask._id,
-        userId: 'sampleUserId', // Replace with actual user ID
-        location,
-      });
-      alert('Applied for the task!');
-      setShowMap(false);
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+      );
+      if (response.data && response.data.display_name) {
+        setAddress(response.data.display_name);
+        console.log(response.data.display_name);
+      } else {
+        setAddress('Address not found');
+        console.log("no");
+      }
+    } catch (error) {
+      console.error('Error fetching address:', error);
+      setAddress('Error fetching address');
+    }
+  };
+
+  const handleSaveUserDetails = async (e) => {
+    const postData = {
+      address: address,
+      taskEmail: selectedTask.email,
+      userEmail: userFormData.email,
+      username: userFormData.username,
+    };
+    console.log(postData);
+    
+    try {
+      const response = await axios.post('http://localhost:8080/apply', postData);
+      console.log(response.data);
+      alert('User details saved successfully!');
       handleCloseModal();
     } catch (error) {
-      console.error('Error applying for task:', error);
-      alert('Failed to apply for the task.');
+      console.error('Error saving user details:', error);
+      alert('Failed to save user details.');
     }
   };
 
@@ -157,9 +199,9 @@ const Home = () => {
         <div className="d-flex flex-wrap">
           {tasks.length > 0 ? (
             tasks.map((task) => (
-              <Card 
-                key={task._id} 
-                style={{ width: '18rem', margin: '10px', cursor: 'pointer' }} 
+              <Card
+                key={task._id}
+                style={{ width: '18rem', margin: '10px', cursor: 'pointer' }}
                 onClick={() => handleCardClick(task)}
               >
                 <Card.Body>
@@ -171,16 +213,16 @@ const Home = () => {
                     <strong>Number:</strong> {task.Number}
                   </Card.Text>
                   <div className="button-group">
-                    <Button 
-                      variant="primary" 
-                      className="mb-2 d-flex align-items-center mr-2" 
+                    <Button
+                      variant="primary"
+                      className="mb-2 d-flex align-items-center mr-2"
                       onClick={(e) => { e.stopPropagation(); handleEmailClick(task.email); }}
                     >
                       <FaEnvelope className="mr-2" /> Email
                     </Button>
-                    <Button 
-                      variant="success" 
-                      className="mb-2 d-flex align-items-center" 
+                    <Button
+                      variant="success"
+                      className="mb-2 d-flex align-items-center"
                       onClick={(e) => { e.stopPropagation(); handleChatClick(task.Number); }}
                     >
                       <FaWhatsapp className="mr-2" /> Chat
@@ -208,23 +250,23 @@ const Home = () => {
               <p><strong>Number:</strong> {selectedTask.Number}</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button 
-                variant="primary" 
-                className="d-flex align-items-center mr-2" 
+              <Button
+                variant="primary"
+                className="d-flex align-items-center mr-2"
                 onClick={() => handleEmailClick(selectedTask.email)}
               >
                 <FaEnvelope className="mr-2" /> Email
               </Button>
-              <Button 
-                variant="success" 
-                className="d-flex align-items-center mr-2" 
+              <Button
+                variant="success"
+                className="d-flex align-items-center mr-2"
                 onClick={() => handleChatClick(selectedTask.Number)}
               >
                 <FaWhatsapp className="mr-2" /> Chat
               </Button>
-              <Button 
-                variant="warning" 
-                className="d-flex align-items-center" 
+              <Button
+                variant="warning"
+                className="d-flex align-items-center"
                 onClick={handleApplyClick}
               >
                 Apply
@@ -239,29 +281,57 @@ const Home = () => {
           <Modal.Title>Select Location</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <MapContainer 
-            style={{ height: '400px' }} 
-            center={[20.5937, 78.9629]} 
-            zoom={5} 
+          <MapContainer
+            style={{ height: '400px' }}
+            center={[20.5937, 78.9629]}
+            zoom={5}
           >
             <TileLayer
-               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-             <MapClickHandler setLocation={setLocation} />
+            <MapClickHandler setLocation={setLocation} />
             {location && (
               <Marker position={[location.lat, location.lng]}>
                 <Popup>Your selected location</Popup>
               </Marker>
             )}
+            <Button variant="secondary" onClick={() => setShowMap(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" >
+              Save Location
+            </Button>
           </MapContainer>
+          {showUserForm && (
+            <Form onSubmit={handleSaveUserDetails} className="mt-3">
+              <Form.Group controlId="formEmail">
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={userFormData.email}
+                  placeholder='Enter Your email'
+                  onChange={handleUserFormChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formUsername">
+                <Form.Control
+                  type="text"
+                  name="username"
+                  value={userFormData.username}
+                  placeholder='Enter Your Name'
+                  onChange={handleUserFormChange}
+                  required
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+          )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowMap(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSaveLocation}>
-            Save Location
-          </Button>
+
         </Modal.Footer>
       </Modal>
     </Container>

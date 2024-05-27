@@ -3,7 +3,6 @@ const server = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
-const emailRoutes = require('./emailRoutes');
 console.log("hello");
 
 mongoose.connect("mongodb://127.0.0.1:27017/workerlist")
@@ -44,6 +43,28 @@ const userSchema=new mongoose.Schema({
 });
 const worker=mongoose.model("user",userSchema);
 
+const userDetailsSchema = new mongoose.Schema({
+  workeremail: {
+    type: String,
+    required: true,
+  },
+  userEmail: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+});
+const userDetails = mongoose.model("UserDetails", userDetailsSchema);
+
+
+
 server.use(cors());
 server.use(bodyParser.json());
 
@@ -62,7 +83,29 @@ server.get('/fetchworker', async (req, res) => {
       }
   });
 
-server.use('/api', emailRoutes);
+  server.post('/apply', async (req, res) => {
+    const workeremail= req.body.taskEmail;
+    const userEmail= req.body.userEmail;
+    const username=req.body.username;
+    const address= req.body.address;
+  try {
+    const result = await userDetails.create({
+      workeremail,
+      userEmail,
+      username,
+      address,
+    });
+    res.json({ message: "User details received and saved" });
+  } catch (error) {
+    console.error("Error saving user details:", error);
+    res.status(500).json({ message: "Error saving user details" });
+  }
+
+  console.log(req.body);
+  console.log(req.body.taskEmail);
+  });
+
+
 
 server.listen(8080, () => {
     console.log("Server started on port 8080");
