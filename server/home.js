@@ -60,10 +60,13 @@ const userDetailsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['Pending', 'Accepted', 'Declined'],
+    default: 'Pending',
+  },
 });
 const userDetails = mongoose.model("UserDetails", userDetailsSchema);
-
-
 
 server.use(cors());
 server.use(bodyParser.json());
@@ -100,10 +103,29 @@ server.get('/fetchworker', async (req, res) => {
     console.error("Error saving user details:", error);
     res.status(500).json({ message: "Error saving user details" });
   }
-
-  console.log(req.body);
-  console.log(req.body.taskEmail);
   });
+
+  server.get('/fetchuser', async (req, res) => {
+    try {
+      const userDetail = await userDetails.find({});
+      res.json(userDetail);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      res.status(500).json({ message: "Error fetching user details" });
+    }
+  });
+
+  server.post('/updateUserStatus', async (req, res) => {
+    const { id, status } = req.body;
+    try {
+      await userDetails.findByIdAndUpdate(id, { status });
+      res.json({ message: "Status updated successfully" });
+    } catch (error) {
+      console.error("Error updating status:", error);
+      res.status(500).json({ message: "Error updating status" });
+    }
+  });
+  
 
 
 
