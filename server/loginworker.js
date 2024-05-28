@@ -1,8 +1,9 @@
 const express = require('express');
-const server = express();
+//const server = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
+const router = express.Router();
 console.log("hello");
 
 mongoose.connect("mongodb://127.0.0.1:27017/workerlist")
@@ -43,13 +44,9 @@ const userSchema=new mongoose.Schema({
 });
 const worker=mongoose.model("user",userSchema);
 
-server.use(cors());
-server.use(bodyParser.json());
-
-server.post('/addworker',async (req, res) => {
+router.post('/addworker',async (req, res) => {
     console.log(req.body);
-    // console.log(req.body.formD);
-    // console.log(req.body.formDetails.category);
+  
     const a = req.body.firstname;
     const b = req.body.lastname;
     const c = req.body.email;
@@ -75,7 +72,29 @@ server.post('/addworker',async (req, res) => {
   });
 
 
-
-server.listen(8080, () => {
-    console.log("Server started on port 8080");
+  router.get('/getAllAdmins', async (req, res) => {
+    try {
+      const admins = await worker.find({});
+      res.json(admins);
+    } catch (error) {
+      console.error("Error fetching admins:", error);
+      res.status(500).json({ message: "Error fetching admins" });
+    }
   });
+
+  router.get('/fetchworker', async (req, res) => {
+    try {
+        const { category, city } = req.query;
+        const filter = {};
+        if (category) filter.Category = category;
+        if (city) filter.City = city;
+    
+        const person = await worker.find(filter);
+        res.json(person);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching tasks" });
+      }
+  });
+
+module.exports = router;

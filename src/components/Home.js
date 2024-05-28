@@ -31,7 +31,7 @@ const Home = () => {
 
   const fetchTasks = async (category = '', city = '') => {
     try {
-      let url = 'http://localhost:8080/fetchworker';
+      let url = 'http://localhost:8080/loginworker/fetchworker';
       if (category || city) {
         url += '?';
         if (category) url += `category=${category}&`;
@@ -138,7 +138,7 @@ const Home = () => {
     console.log(postData);
     
     try {
-      const response = await axios.post('http://localhost:8080/apply', postData);
+      const response = await axios.post('http://localhost:8080/home/apply', postData);
       console.log(response.data);
       alert('User details saved successfully!');
       handleCloseModal();

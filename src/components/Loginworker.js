@@ -282,11 +282,15 @@ const Loginworker = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/addworker', formData , {
+      const response = await axios.post('http://localhost:8080/loginworker/addworker', formData , {
         headers: {
           'Content-Type': 'application/json'
         }
       });
+      if (response.status === 200) {
+        localStorage.setItem('adminEmail', formData.email);
+        console.log('Admin logged in and email stored:', formData.email);
+      }
       console.log(formData,response);
       setFormData({
         firstname: '',

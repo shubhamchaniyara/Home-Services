@@ -1,16 +1,15 @@
 const express = require('express');
-const server = express();
+//const server = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
+const router = express.Router();
 console.log("hellouser");
 
-server.use(cors());
-server.use(bodyParser.json());
-
-mongoose.connect("mongodb://127.0.0.1:27017/userlist")
+mongoose.connect("mongodb://127.0.0.1:27017/workerlist")
 .then(()=>console.log("mongoose connected"))
 .catch(err=>console.log("error generate",err));
+
 
 const userSchema=new mongoose.Schema({
   email:{
@@ -23,9 +22,9 @@ const userSchema=new mongoose.Schema({
     required:true,
   },
 });
-const User=mongoose.model("user",userSchema);
+const User=mongoose.model("usercollection",userSchema);
 
-server.post('/signup',async (req, res) => {
+router.post('/signup',async (req, res) => {
     console.log(req.body);
     const c = req.body.email;
     const d = req.body.password;
@@ -42,7 +41,7 @@ server.post('/signup',async (req, res) => {
   });
 
 
-server.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     console.log(req.body, "check");
     const { email, password } = req.body;
     try {
@@ -59,6 +58,4 @@ server.post('/login', async (req, res) => {
 });
 
 
-  server.listen(8080, () => {
-    console.log("Server started on port 8080");
-  });
+  module.exports = router;

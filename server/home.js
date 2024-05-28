@@ -1,47 +1,14 @@
 const express = require('express');
-const server = express();
+//const server = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
+const router = express.Router();
 console.log("hello");
 
 mongoose.connect("mongodb://127.0.0.1:27017/workerlist")
 .then(()=>console.log("mongoose connected"))
 .catch(err=>console.log("error generate",err));
-
-const userSchema=new mongoose.Schema({
-  firstName:{
-    type:String,
-    required:true,
-  },
-  lastName:{
-    type:String,
-    required:true,
-  },
-  email:{
-    type:String,
-    required:true,
-    unique:true,
-  },
-  password:{
-    type:String,
-    required:true,
-  },
-  Number:{
-    type:String,
-    required:true,
-    unique:true,
-  },
-  Category:{
-    type:String,
-    required:true,
-  },
-  City:{
-    type:String,
-    required:true,
-  },
-});
-const worker=mongoose.model("user",userSchema);
 
 const userDetailsSchema = new mongoose.Schema({
   workeremail: {
@@ -68,25 +35,8 @@ const userDetailsSchema = new mongoose.Schema({
 });
 const userDetails = mongoose.model("UserDetails", userDetailsSchema);
 
-server.use(cors());
-server.use(bodyParser.json());
 
-server.get('/fetchworker', async (req, res) => {
-    try {
-        const { category, city } = req.query;
-        const filter = {};
-        if (category) filter.Category = category;
-        if (city) filter.City = city;
-    
-        const person = await worker.find(filter);
-        res.json(person);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error fetching tasks" });
-      }
-  });
-
-  server.post('/apply', async (req, res) => {
+  router.post('/apply', async (req, res) => {
     const workeremail= req.body.taskEmail;
     const userEmail= req.body.userEmail;
     const username=req.body.username;
@@ -105,17 +55,18 @@ server.get('/fetchworker', async (req, res) => {
   }
   });
 
-  server.get('/fetchuser', async (req, res) => {
+  router.get('/fetchuser/:adminEmail', async (req, res) => {
+    const { adminEmail } = req.params;
     try {
-      const userDetail = await userDetails.find({});
-      res.json(userDetail);
+      const requests = await userDetails.find({ workeremail: adminEmail });
+      res.json(requests);
     } catch (error) {
-      console.error("Error fetching user details:", error);
-      res.status(500).json({ message: "Error fetching user details" });
+      console.error("Error fetching user requests:", error);
+      res.status(500).json({ message: "Error fetching user requests" });
     }
   });
 
-  server.post('/updateUserStatus', async (req, res) => {
+  router.post('/updateUserStatus', async (req, res) => {
     const { id, status } = req.body;
     try {
       await userDetails.findByIdAndUpdate(id, { status });
@@ -127,8 +78,4 @@ server.get('/fetchworker', async (req, res) => {
   });
   
 
-
-
-server.listen(8080, () => {
-    console.log("Server started on port 8080");
-  });
+  module.exports = router;
