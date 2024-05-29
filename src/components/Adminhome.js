@@ -191,8 +191,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Admin = () => {
   const [userDetails, setUserDetails] = useState([]);
-  const adminEmail = localStorage.getItem('adminEmail'); // Get admin email from local storage
-
+  const adminEmail = localStorage.getItem('adminEmail'); 
   useEffect(() => {
     if (adminEmail) {
       fetchUserRequests(adminEmail);
