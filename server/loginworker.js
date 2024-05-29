@@ -97,4 +97,20 @@ router.post('/addworker',async (req, res) => {
       }
   });
 
+  router.post('/login', async (req, res) => {
+    console.log(req.body, "check");
+    const { email, password } = req.body;
+    try {
+        const usercheck = await worker.findOne({ email, password });
+        if (!usercheck) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+        res.json({ message: 'Login successful' });
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Error logging in' });
+    }
+});
+
+
 module.exports = router;

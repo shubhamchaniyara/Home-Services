@@ -27,6 +27,10 @@ const userDetailsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
     enum: ['Pending', 'Accepted', 'Declined'],
@@ -41,12 +45,14 @@ const userDetails = mongoose.model("UserDetails", userDetailsSchema);
     const userEmail= req.body.userEmail;
     const username=req.body.username;
     const address= req.body.address;
+    const category=req.body.categoryworer;
   try {
     const result = await userDetails.create({
       workeremail,
       userEmail,
       username,
       address,
+      category,
     });
     res.json({ message: "User details received and saved" });
   } catch (error) {
@@ -59,6 +65,17 @@ const userDetails = mongoose.model("UserDetails", userDetailsSchema);
     const { adminEmail } = req.params;
     try {
       const requests = await userDetails.find({ workeremail: adminEmail });
+      res.json(requests);
+    } catch (error) {
+      console.error("Error fetching user requests:", error);
+      res.status(500).json({ message: "Error fetching user requests" });
+    }
+  });
+
+  router.get('/fetchuserhistory/:useremail', async (req, res) => {
+    const { useremail } = req.params;
+    try {
+      const requests = await userDetails.find({ userEmail: useremail });
       res.json(requests);
     } catch (error) {
       console.error("Error fetching user requests:", error);

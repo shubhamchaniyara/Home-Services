@@ -134,6 +134,7 @@ const Home = () => {
       taskEmail: selectedTask.email,
       userEmail: userFormData.email,
       username: userFormData.username,
+      categoryworer: selectedTask.Category,
     };
     console.log(postData);
     

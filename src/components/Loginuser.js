@@ -86,11 +86,15 @@ const Loginuser = () => {
   const handleSignup = async () => {
     console.log(formData);
     try {
-      const response = await axios.post('http://localhost:8080/signup', formData, {
+      const response = await axios.post('http://localhost:8080/loginuser/signup', formData, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
+      if (response.status === 200) {
+        localStorage.setItem('UserEmail', formData.email);
+        console.log('User logged in and email stored:', formData.email);
+      }
       console.log(response.data);
     } catch (error) {
       console.error('There was an error signing up!', error);
@@ -101,11 +105,15 @@ const Loginuser = () => {
   const handleLogin = async () => {
     console.log(formData);
     try {
-      const response = await axios.post('http://localhost:8080/login', formData, {
+      const response = await axios.post('http://localhost:8080/loginuser/login', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      if (response.status === 200) {
+        localStorage.setItem('UserEmail', formData.email);
+        console.log('User logged in and email stored:', formData.email);
+      }
       console.log(response.data);
     } catch (error) {
       console.error('There was an error logging in!', error);
