@@ -4,6 +4,7 @@ import Admin from './components/Adminhome';
 import Home from './components/Home';
 import Loginuser from './components/Loginuser';
 import Loginworker from './components/Loginworker';
+import Navigation from './components/Navigation';
 import Signin from './components/Signin';
 import Userhistory from './components/Userhistory';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/userhistory" element={<Userhistory/>}/>
                 <Route path="/admin" element={<Admin/>}/>
                 <Route path="/aboutus" element={<Aboutus/>}/>
+                <Route path="/navigation" element={<Navigation/>}/>
             </Routes>
         </Router>
     </div>

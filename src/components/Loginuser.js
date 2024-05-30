@@ -68,6 +68,7 @@ import React,{useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 
 const Loginuser = () => {
@@ -75,6 +76,8 @@ const Loginuser = () => {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevFormData) => ({
@@ -96,6 +99,7 @@ const Loginuser = () => {
         console.log('User logged in and email stored:', formData.email);
       }
       console.log(response.data);
+      navigate("/home");
     } catch (error) {
       console.error('There was an error signing up!', error);
     }
@@ -115,6 +119,7 @@ const Loginuser = () => {
         console.log('User logged in and email stored:', formData.email);
       }
       console.log(response.data);
+      navigate("/home");
     } catch (error) {
       console.error('There was an error logging in!', error);
     }

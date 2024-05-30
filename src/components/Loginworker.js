@@ -259,6 +259,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Loginworker.css';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 const Loginworker = () => {
   const [formData, setFormData] = useState({
@@ -270,6 +271,7 @@ const Loginworker = () => {
     category: '',
     city: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -301,6 +303,7 @@ const Loginworker = () => {
         category: '',
         city: '',
       });
+      navigate("/admin");
     } catch (error) {
       console.error("Error saving task ", error);
       console.log("2");

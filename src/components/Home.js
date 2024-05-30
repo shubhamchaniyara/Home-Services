@@ -6,6 +6,10 @@ import './home.css';
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Navbar, Nav } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [formData, setFormData] = useState({
@@ -151,8 +155,28 @@ const Home = () => {
 
   return (
     <Container className="form-container">
-      <h1>Task Management</h1>
-      <Button variant="outline-primary" onClick={toggleFilter} className="mb-3">
+        <Navbar expand="lg" style={{ backgroundColor: '#f8f9fa' }}>
+      <Container fluid>
+        <Navbar.Toggle aria-controls="navbarSupportedContent">
+          <FontAwesomeIcon icon={faBars} />
+        </Navbar.Toggle>
+        <Navbar.Collapse id="navbarSupportedContent">
+          <Navbar.Brand href="#">
+            <img
+              src="https://tse1.mm.bing.net/th?id=OIP.t5Ul933v6D7nqYT0oQ9FJQHaEh&pid=Api&rs=1&c=1&qlt=95&w=163&h=99"
+              height="50"
+              alt="MDB Logo"
+              loading="lazy"
+            />
+          </Navbar.Brand>
+          <Nav className="me-auto mb-2 mb-lg-0">
+            <Nav.Link as={Link} to="/home" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Home</Nav.Link>
+            <Nav.Link as={Link} to="/userhistory" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Records</Nav.Link>
+            <Nav.Link as={Link} to="/aboutus" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>About Us</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        <div class="d-flex align-items-center">
+        <Button variant="outline-primary" onClick={toggleFilter} className="mb-3">
         <FaFilter /> Filter
       </Button>
       <Collapse in={filterVisible}>
@@ -194,9 +218,13 @@ const Home = () => {
           </Form>
         </div>
       </Collapse>
-
+      
+        </div>
+    
+      </Container>
+    </Navbar>
+      <h1>Connect with Technician</h1>
       <div>
-        <h2>Filtered Workers</h2>
         <div className="d-flex flex-wrap">
           {tasks.length > 0 ? (
             tasks.map((task) => (
