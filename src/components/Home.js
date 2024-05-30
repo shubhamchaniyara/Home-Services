@@ -173,6 +173,7 @@ const Home = () => {
             <Nav.Link as={Link} to="/home" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Home</Nav.Link>
             <Nav.Link as={Link} to="/userhistory" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Records</Nav.Link>
             <Nav.Link as={Link} to="/aboutus" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>About Us</Nav.Link>
+            <Nav.Link as={Link} to="/signin" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Admin</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <div class="d-flex align-items-center">

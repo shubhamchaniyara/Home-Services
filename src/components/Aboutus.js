@@ -21,7 +21,7 @@ const Aboutus = () => {
             setTimeout(() => {
                 setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
                 setIsSliding(false);
-            }, 500); // Half a second for the sliding transition
+            }, 500);
         }, 2000);
 
         return () => clearInterval(interval);

@@ -224,7 +224,6 @@ const Admin = () => {
           <thead>
             <tr>
               <th>Address</th>
-              <th>Task Email</th>
               <th>User Email</th>
               <th>Username</th>
               <th>Actions</th>
@@ -234,7 +233,6 @@ const Admin = () => {
             {userDetails.map((detail, index) => (
               <tr key={index}>
                 <td>{detail.address}</td>
-                <td>{detail.taskEmail}</td>
                 <td>{detail.userEmail}</td>
                 <td>{detail.username}</td>
                 <td>
