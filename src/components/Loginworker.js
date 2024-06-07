@@ -291,9 +291,9 @@ const Loginworker = () => {
       });
       if (response.status === 200) {
         localStorage.setItem('adminEmail', formData.email);
-        console.log('Admin logged in and email stored:', formData.email);
+        
       }
-      console.log(formData,response);
+      
       setFormData({
         firstname: '',
         lastname: '',
@@ -306,15 +306,15 @@ const Loginworker = () => {
       navigate("/admin");
     } catch (error) {
       console.error("Error saving task ", error);
-      console.log("2");
+      alert("There was an error in sign up!,please check carefully..")
     }
-    console.log(formData);
+    
     
   };
 
   return (
     <Container className="form-container">
-      <h1>My Form</h1>
+      <h1>Admin Register</h1>
       <Form onSubmit={handleSubmit} className="custom-form">
         <Form.Group controlId="formFirstname">
           <Form.Control

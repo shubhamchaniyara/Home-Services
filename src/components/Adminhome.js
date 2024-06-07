@@ -227,6 +227,7 @@ const Admin = () => {
               <th>User Email</th>
               <th>Username</th>
               <th>Actions</th>
+              <th>currentStatus</th>
             </tr>
           </thead>
           <tbody>
@@ -249,6 +250,7 @@ const Admin = () => {
                     Decline
                   </Button>
                 </td>
+                <td>{detail.status}</td>
               </tr>
             ))}
           </tbody>

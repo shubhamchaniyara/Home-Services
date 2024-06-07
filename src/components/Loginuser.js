@@ -87,7 +87,6 @@ const Loginuser = () => {
   };
 
   const handleSignup = async () => {
-    console.log(formData);
     try {
       const response = await axios.post('http://localhost:8080/loginuser/signup', formData, {
         headers: {
@@ -96,18 +95,17 @@ const Loginuser = () => {
       });
       if (response.status === 200) {
         localStorage.setItem('UserEmail', formData.email);
-        console.log('User logged in and email stored:', formData.email);
       }
-      console.log(response.data);
       navigate("/home");
     } catch (error) {
       console.error('There was an error signing up!', error);
+      alert("There was an error in sign up!,please check carefully..")
     }
-    console.log(formData);
+    
   };
 
   const handleLogin = async () => {
-    console.log(formData);
+    
     try {
       const response = await axios.post('http://localhost:8080/loginuser/login', formData, {
         headers: {
@@ -116,21 +114,24 @@ const Loginuser = () => {
       });
       if (response.status === 200) {
         localStorage.setItem('UserEmail', formData.email);
-        console.log('User logged in and email stored:', formData.email);
+       
       }
-      console.log(response.data);
+      
       navigate("/home");
     } catch (error) {
       console.error('There was an error logging in!', error);
+      alert("There was an error in login!,please check carefully..")
     }
-    console.log(formData);
+    
   };
 
   return (
     <section className="vh-100">
       <div className="container-fluid h-custom">
+      <h1>Find Your Home Appliance Technician</h1>
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-9 col-lg-6 col-xl-5">
+            
             <img
               src="https://chapmanselectrical.co.uk/wp-content/uploads/2020/03/tv.jpg"
               className="img-fluid"

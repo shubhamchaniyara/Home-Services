@@ -14,10 +14,10 @@ function App() {
       <Router>
             <Routes>
                 <Route path="/" element={<Loginuser/>}/>
-                <Route path="/signin" element={<Signin/>}/>
+                <Route path="/adminlogin" element={<Signin/>}/>
                 <Route path="/home" element={<Home/>}/>
-                <Route path="/loginworker" element={<Loginworker/>}/>
-                <Route path="/userhistory" element={<Userhistory/>}/>
+                <Route path="/adminregister" element={<Loginworker/>}/>
+                <Route path="/userrecord" element={<Userhistory/>}/>
                 <Route path="/admin" element={<Admin/>}/>
                 <Route path="/aboutus" element={<Aboutus/>}/>
             </Routes>

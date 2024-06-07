@@ -84,7 +84,7 @@ const Userhistory = () => {
 
   return (
     <Container>
-      <h1 className="my-4">User History</h1>
+      <h1 className="my-4">User Records</h1>
       <Table striped bordered hover>
         <thead className="thead-dark">
           <tr>

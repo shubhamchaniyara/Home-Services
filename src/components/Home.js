@@ -9,7 +9,7 @@ import 'leaflet/dist/leaflet.css';
 import { Navbar, Nav } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 
 const Home = () => {
   const [formData, setFormData] = useState({
@@ -24,10 +24,12 @@ const Home = () => {
   const [location, setLocation] = useState(null);
   const [showUserForm, setShowUserForm] = useState(false);
   const [address, setAddress] = useState('');
+  const useremail = localStorage.getItem('UserEmail');
   const [userFormData, setUserFormData] = useState({
-    email: '',
     username: '',
   });
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchTasks();
@@ -43,7 +45,6 @@ const Home = () => {
       }
       const response = await axios.get(url);
       setTasks(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching tasks", error);
     }
@@ -84,8 +85,6 @@ const Home = () => {
 
   const handleCardClick = (task) => {
     setSelectedTask(task);
-    console.log(task);
-    console.log(task.email);
     setShowModal(true);
   };
 
@@ -94,7 +93,7 @@ const Home = () => {
     setSelectedTask(null);
     setShowMap(false);
     setShowUserForm(false);
-    setUserFormData({ email: '', username: '' });
+    setUserFormData({  username: '' });
   };
 
   const handleApplyClick = async () => {
@@ -107,7 +106,6 @@ const Home = () => {
       click: (e) => {
         const { lat, lng } = e.latlng;
         setLocation({ lat, lng });
-        console.log(location);
         fetchAddressFromCoordinates(lat, lng);
       },
     });
@@ -121,10 +119,10 @@ const Home = () => {
       );
       if (response.data && response.data.display_name) {
         setAddress(response.data.display_name);
-        console.log(response.data.display_name);
+        
       } else {
         setAddress('Address not found');
-        console.log("no");
+        
       }
     } catch (error) {
       console.error('Error fetching address:', error);
@@ -136,17 +134,17 @@ const Home = () => {
     const postData = {
       address: address,
       taskEmail: selectedTask.email,
-      userEmail: userFormData.email,
+      userEmail: useremail,
       username: userFormData.username,
       categoryworer: selectedTask.Category,
     };
-    console.log(postData);
+   
     
     try {
-      const response = await axios.post('http://localhost:8080/home/apply', postData);
-      console.log(response.data);
-      alert('User details saved successfully!');
+      await axios.post('http://localhost:8080/home/apply', postData);
+      alert('Your request is sent successfully!');
       handleCloseModal();
+      navigate("/home");
     } catch (error) {
       console.error('Error saving user details:', error);
       alert('Failed to save user details.');
@@ -171,9 +169,9 @@ const Home = () => {
           </Navbar.Brand>
           <Nav className="me-auto mb-2 mb-lg-0">
             <Nav.Link as={Link} to="/home" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Home</Nav.Link>
-            <Nav.Link as={Link} to="/userhistory" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Records</Nav.Link>
+            <Nav.Link as={Link} to="/userrecord" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Records</Nav.Link>
             <Nav.Link as={Link} to="/aboutus" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>About Us</Nav.Link>
-            <Nav.Link as={Link} to="/signin" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Admin</Nav.Link>
+            <Nav.Link as={Link} to="/adminlogin" style={{ fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>Admin</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <div class="d-flex align-items-center">
@@ -334,16 +332,6 @@ const Home = () => {
           </MapContainer>
           {showUserForm && (
             <Form onSubmit={handleSaveUserDetails} className="mt-3">
-              <Form.Group controlId="formEmail">
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={userFormData.email}
-                  placeholder='Enter Your email'
-                  onChange={handleUserFormChange}
-                  required
-                />
-              </Form.Group>
               <Form.Group controlId="formUsername">
                 <Form.Control
                   type="text"

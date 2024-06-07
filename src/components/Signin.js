@@ -22,7 +22,7 @@ const Signin = () => {
 
 
   const handleLogin = async () => {
-    console.log(formData);
+    
     try {
       const response = await axios.post('http://localhost:8080/loginworker/login', formData, {
         headers: {
@@ -31,14 +31,15 @@ const Signin = () => {
       });
       if (response.status === 200) {
         localStorage.setItem('adminEmail', formData.email);
-        console.log('Admin logged in and email stored:', formData.email);
+        
       }
-      console.log(response.data);
+      
       navigate("/admin");
     } catch (error) {
       console.error('There was an error logging in!', error);
+      alert("There was an error log in!,please check carefully")
     }
-    console.log(formData);
+    
   };
 
   return (
@@ -46,6 +47,7 @@ const Signin = () => {
       <div className="container-fluid h-custom">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-9 col-lg-6 col-xl-5">
+          <h1>Admin Login</h1>
             <img
               src="https://chapmanselectrical.co.uk/wp-content/uploads/2020/03/tv.jpg"
               className="img-fluid"
@@ -85,7 +87,7 @@ const Signin = () => {
                 >
                   Login
                 </button>
-                <Link to="/loginworker" className="btn btn-link text-black">
+                <Link to="/adminregister" className="btn btn-link text-black">
                   Don't have an account? Register
                 </Link>
               </div>
