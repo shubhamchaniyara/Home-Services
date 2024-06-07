@@ -21,6 +21,6 @@ app.use('/home', homeRoutes);
 app.use('/loginworker', loginWorkerRoutes);
 app.use('/loginuser', loginUserRoutes);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT,'0.0.0.0', () => {
     console.log("Server started on port 8080",process.env.PORT);
 });
