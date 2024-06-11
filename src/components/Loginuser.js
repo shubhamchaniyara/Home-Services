@@ -88,7 +88,7 @@ const Loginuser = () => {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/loginuser/signup', formData, {
+      const response = await axios.post('https://homebackend.vercel.app/loginuser/signup', formData, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -107,7 +107,7 @@ const Loginuser = () => {
   const handleLogin = async () => {
     
     try {
-      const response = await axios.post('http://localhost:8080/loginuser/login', formData, {
+      const response = await axios.post('https://homebackend.vercel.app/loginuser/login', formData, {
         headers: {
           'Content-Type': 'application/json',
         },

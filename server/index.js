@@ -11,10 +11,9 @@ require("dotenv").config
 
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
-app.use(cors());
+app.use(cors({origin: 'https://homecareservices.vercel.app'}));
 app.use(bodyParser.json());
 
 app.use('/home', homeRoutes);

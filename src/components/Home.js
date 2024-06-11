@@ -37,7 +37,7 @@ const Home = () => {
 
   const fetchTasks = async (category = '', city = '') => {
     try {
-      let url = 'http://localhost:8080/loginworker/fetchworker';
+      let url = 'https://homebackend.vercel.app/loginworker/fetchworker';
       if (category || city) {
         url += '?';
         if (category) url += `category=${category}&`;
@@ -141,7 +141,7 @@ const Home = () => {
    
     
     try {
-      await axios.post('http://localhost:8080/home/apply', postData);
+      await axios.post('https://homebackend.vercel.app/home/apply', postData);
       alert('Your request is sent successfully!');
       handleCloseModal();
       navigate("/home");

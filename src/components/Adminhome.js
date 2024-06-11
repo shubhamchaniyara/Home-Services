@@ -200,7 +200,7 @@ const Admin = () => {
 
   const fetchUserRequests = async (adminEmail) => {
     try {
-      const response = await axios.get(`http://localhost:8080/home/fetchuser/${adminEmail}`);
+      const response = await axios.get(`https://homebackend.vercel.app/home/fetchuser/${adminEmail}`);
       setUserDetails(response.data);
     } catch (error) {
       console.error("Error fetching user requests", error);
@@ -209,7 +209,7 @@ const Admin = () => {
 
   const handleUpdateStatus = async (id, status) => {
     try {
-      await axios.post('http://localhost:8080/home/updateUserStatus', { id, status });
+      await axios.post('https://homebackend.vercel.app/home/updateUserStatus', { id, status });
       setUserDetails(prevDetails => prevDetails.filter(detail => detail._id !== id));
     } catch (error) {
       console.error("Error updating status", error);

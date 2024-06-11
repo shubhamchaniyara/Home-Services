@@ -62,7 +62,7 @@ const Userhistory = () => {
 
   const fetchUserhistory = async (useremail) => {
     try {
-      const response = await axios.get(`http://localhost:8080/home/fetchuserhistory/${useremail}`);
+      const response = await axios.get(`https://homebackend.vercel.app/home/fetchuserhistory/${useremail}`);
       setUserDetails(response.data);
     } catch (error) {
       console.error("Error fetching user requests", error);
